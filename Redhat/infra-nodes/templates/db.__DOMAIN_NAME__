@@ -1,0 +1,41 @@
+$TTL    604800
+@	IN	SOA     __SERVICE_HOSTNAME__.__DOMAIN_NAME__. admin.__DOMAIN_NAME__. (
+                  1     ; Serial
+             604800     ; Refresh
+              86400     ; Retry
+            2419200     ; Expire
+             604800     ; Negative Cache TTL
+)
+
+; name servers - NS records
+    IN      NS      __SERVICE_HOSTNAME__
+
+; name servers - A records
+__SERVICE_HOSTNAME__.__DOMAIN_NAME__.          IN	 A	 __SERVICE_IP__
+
+
+; Kubernetes Cluster Master - A records
+__MASTER_01_HOSTNAME__.__DOMAIN_NAME__.         IN      A	   __MASTER_01_IP__
+__MASTER_02_HOSTNAME__.__DOMAIN_NAME__.         IN      A	   __MASTER_02_IP__
+
+
+; Kubernetes Cluster Master - A records
+__WORKER_01_HOSTNAME__.__DOMAIN_NAME__.         IN      A	   __WORKER_01_IP__
+__WORKER_01_HOSTNAME__.__DOMAIN_NAME__.         IN      A	   __WORKER_02_IP__
+
+
+; Kubernetes internal cluster IPs - A records
+api.__DOMAIN_NAME__.       IN    A    __SERVICE_IP__
+__KUBERNETES_ENDPOINT_HOSTNAME__.__DOMAIN_NAME__.    IN    A    __KUBERNETES_ENDPOINT_IP__
+etcd-0.__DOMAIN_NAME__.    IN    A    __MASTER_01_IP__
+etcd-1.__DOMAIN_NAME__.    IN    A    __MASTER_02_IP__
+
+
+; Kubernetes registry and toolbox - A records
+__KUBERNETES_CR_HOSTNAME__.__DOMAIN_NAME__.      IN    A    __KUBERNETES_CR_IP__
+__TOOLBOX_HOSTNAME__.__DOMAIN_NAME__.       IN    A    __TOOLBOX_IP__
+
+
+; kubernetes internal cluster IPs - SRV records
+_etcd-server-ssl._tcp.__DOMAIN_NAME__.    86400     IN    SRV     0    10    2380    etcd-0
+_etcd-server-ssl._tcp.__DOMAIN_NAME__.    86400     IN    SRV     0    10    2380    etcd-1

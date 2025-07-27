@@ -1,0 +1,9 @@
+zone "__DOMAIN_NAME__" {
+    type master;
+    file "/etc/named/zones/db.__DOMAIN_NAME__";
+};
+
+zone "__reverse_network__.in-addr.arpa" {
+    type master;
+    file "/etc/named/zones/db.__reverse_network__";
+};

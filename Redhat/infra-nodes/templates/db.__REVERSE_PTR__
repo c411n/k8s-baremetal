@@ -1,0 +1,20 @@
+$TTL    604800
+@	IN	SOA     __SERVICE_HOSTNAME__.__DOMAIN_NAME__. admin.__DOMAIN_NAME__. (
+                  6     ; Serial
+             604800     ; Refresh
+              86400     ; Retry
+            2419200     ; Expire
+             604800     ; Negative Cache TTL
+)
+
+; name servers - NS records
+    IN      NS      __SERVICE_HOSTNAME__.__DOMAIN_NAME__.
+
+; name servers - PTR records
+__service_ptr__    IN    PTR    __SERVICE_HOSTNAME__.__DOMAIN_NAME__.
+
+; Kubernetes Container Platform Cluster - PTR records
+__master_01_ptr__    IN    PTR    __MASTER_01_HOSTNAME__.__DOMAIN_NAME__.
+__master_02_ptr__    IN    PTR    __MASTER_02_HOSTNAME__.__DOMAIN_NAME__.
+__worker_01_ptr__    IN    PTR    __WORKER_01_HOSTNAME__.__DOMAIN_NAME__.
+__worker_02_ptr__    IN    PTR    __WORKER_02_HOSTNAME__.__DOMAIN_NAME__.
