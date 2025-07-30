@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "$(pwd)/env"
+source "../../env"
 
 ROOT="${DOMAIN_NAME}"
 if [[ ! -e $ROOT || ! -d $ROOT ]]
@@ -10,11 +10,19 @@ fi
 
 cat <<EOF
 #
+#Enable codeready repo
+#
+subscription-manager repos --enable codeready-builder-for-rhel-10-x86_64-rpms
+dnf update
+
+
+cat <<EOF
+#
 # Software installation
 #
 
 EOF
-#yum install -y bind haproxy nano wget curl nfs-utils httpd mod_ssl mariadb{,-server} docker-distribution
+yum install -y bind haproxy nano wget curl nfs-utils httpd mod_ssl mariadb{,-server} docker-distribution
 
 
 cat <<EOF
@@ -180,9 +188,20 @@ cat <<EOF
 
 EOF
 
-mkdir -p  $ROOT/etc/httpd/{conf.d,{sites-enabled,sites-available}}
+mkdir -p $KUBERNETES_CR_DATA_DIR
+
+if ! id $KUBERNETES_CR_USER 2>/dev/null
+then
+	adduser $KUBERNETES_CR_USER
+fi
+loginctl enable-linger $KUBERNETES_CR_USER
+
+mkdir -p $ROOT/home/$KUBERNETES_CR_USER/.config/systemd/user
+cp templates/ $ROOT/home/$KUBERNETES_CR_USER/.config/systemd/user
+
 
 echo "Setting up local httpd configuration ..."
+mkdir -p  $ROOT/etc/httpd/{conf.d,{sites-enabled,sites-available}}
 if [ ! -f $ROOT/etc/httpd/conf.d/httpd-local.conf ]
 then
 	cp -af templates/httpd-local.conf $ROOT/etc/httpd/conf.d/httpd-local.conf
