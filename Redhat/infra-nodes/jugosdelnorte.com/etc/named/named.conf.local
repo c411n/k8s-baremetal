@@ -1,9 +1,0 @@
-zone "jugosdelnorte.com" {
-    type master;
-    file "/etc/named/zones/db.jugosdelnorte.com";
-};
-
-zone "0.88.10.in-addr.arpa" {
-    type master;
-    file "/etc/named/zones/db.0.88.10";
-};
